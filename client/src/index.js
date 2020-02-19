@@ -1,55 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {YELP_TOKEN} from './env'
-console.log(process.env.YELP_TOKEN)
+import ApolloClient, { gql } from 'apollo-boost'
+const uri = "https://api.yelp.com/v3/graphql"
 
-// when mode is commented out, authorization is displayed in headers, otherwise, it is not
-const cache = new InMemoryCache()
 const client = new ApolloClient({
-  uri: "https://api.yelp.com/v3/graphql",
-  // fetchOptions:{
-  //   mode: "no-cors",
-  // },
-  request: async (operation) => {
-    operation.setContext({
-      mode: "no-cors",
+  uri: uri,
 
-      headers: {
-        // "Authorization": `Bearer ${process.env.YELP_TOKEN}`,
-        "Authorization": `Bearer ${YELP_TOKEN}`,
-        "Content-Type": 'application/graphql',
-        'Accept-Language': 'en-US',
-
-
-      }
-    })
+  // request: operation => {
+  //   operation.setContext({
+  //     headers: {
+  //       'Authorization': 'Bearer LFYNZs7r476JEfXOxUeTEEh0brQmEgmoc_Wbpt2ksdnikZcNzIvK1l1A1__jEPBLpbsNEVGrOFzbeNrpi4a6-QeeUnXYo9PxyUkL8s98_U2mAStm53k8KcIjF9BJXnYx',
+  //       'mode': 'no-cors'
+  //     }
+  //   })
+  // }
+  fetchOptions: {
+    mode: 'no-cors',
+    headers: {
+      'Authorization': 'Bearer LFYNZs7r476JEfXOxUeTEEh0brQmEgmoc_Wbpt2ksdnikZcNzIvK1l1A1__jEPBLpbsNEVGrOFzbeNrpi4a6-QeeUnXYo9PxyUkL8s98_U2mAStm53k8KcIjF9BJXnYx'
+    }
   },
-  cache: cache
+//   fetch: fetch('https://api.yelp.com/v3/graphql', {
+//   method: 'POST',
+//   headers: {
+//     'Authentication': 'Bearer LFYNZs7r476JEfXOxUeTEEh0brQmEgmoc_Wbpt2ksdnikZcNzIvK1l1A1__jEPBLpbsNEVGrOFzbeNrpi4a6-QeeUnXYo9PxyUkL8s98_U2mAStm53k8KcIjF9BJXnYx',
+//     'Content-Type': 'application/json',
+
+//   }
+// })
 })
 
 client.query({
-  query: gql`{
-    search(term:"burrito", location:"san francisco") {
-      total
-      business {
+  query: gql`
+    query search {
+      business(id: "garaje-san-francisco") {
         name
-        reviews {
-          text
-          rating
-          time_created
-          url
-        }
+        id
+        alias
+        rating
+        url
       }
     }
-}
   `
-}
-).then(result => console.log(result))
-.catch(error => console.log(error))
+}).then(response => console.log(response))
+.catch(error => console.log(error.stack))
+
+// fetch('https://api.yelp.com/v3/graphql', {
+//   method: 'POST',
+//   headers: {
+//     'Authentication': 'Bearer LFYNZs7r476JEfXOxUeTEEh0brQmEgmoc_Wbpt2ksdnikZcNzIvK1l1A1__jEPBLpbsNEVGrOFzbeNrpi4a6-QeeUnXYo9PxyUkL8s98_U2mAStm53k8KcIjF9BJXnYx',
+//     'Content-Type': 'application/json',
+//     mode: 'no-cors'
+//   }
+// })
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
