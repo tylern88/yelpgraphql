@@ -4,6 +4,7 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+<<<<<<< Updated upstream
 import {YELP_TOKEN} from './env'
 console.log(process.env.YELP_TOKEN)
 
@@ -50,6 +51,11 @@ client.query({
 }
 ).then(result => console.log(result))
 .catch(error => console.log(error))
+=======
+import ApolloClient, { gql } from 'apollo-boost'
+
+
+>>>>>>> Stashed changes
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
