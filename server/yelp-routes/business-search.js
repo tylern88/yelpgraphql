@@ -1,12 +1,10 @@
-const express = require('express')
-const client = require('../queries')
-
+import client from '../queries'
 
 
 
 export default (req, res, next) => {
   const query = `
-    query search($term: String!, $location: String!, $offset: Int!, $limit: Int!){
+    query search($term: String, $location: String, $offset: Int, $limit: Int){
       search(
         term: $term,
         location: $location,
