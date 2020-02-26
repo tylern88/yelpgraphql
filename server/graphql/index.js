@@ -1,29 +1,9 @@
 import {  gql } from 'apollo-server-express'
+import { userResolver } from './resolvers/users'
 
-export const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
+export { default as typeDefs} from './typeDefs'
 
-  type Query {
-    books: [Book]
-  }
-`
-
-const books = [
-  {
-    title: "Twilight",
-    author: "asdfasdf"
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-]
 
 export const resolvers = {
-  Query: {
-    books: () => books
-  }
+  ...userResolver
 }
